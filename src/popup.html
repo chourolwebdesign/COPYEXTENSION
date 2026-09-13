@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CopyPaste Unlocker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="card">
+    <header class="head">
+      <img class="logo" src="../icons/icon48.png" alt="" width="32" height="32">
+      <div>
+        <h1>CopyPaste Unlocker</h1>
+        <p class="host">azubiheft.de</p>
+      </div>
+    </header>
+
+    <label class="row" for="toggle">
+      <span class="label">
+        <span class="title">Unlock clipboard</span>
+        <span id="status" class="status">Loading…</span>
+      </span>
+      <input id="toggle" type="checkbox" class="switch" role="switch" disabled>
+    </label>
+
+    <p class="hint">Ctrl+C, Ctrl+V and Ctrl+X are restored on azubiheft.de. Changes apply immediately — no reload needed.</p>
+    <p class="foot">No data is collected, stored or transmitted.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
