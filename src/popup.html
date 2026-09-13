@@ -3,66 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>CopyPaste Unlocker</title>
-  <link rel="stylesheet" href="boot.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="scan" aria-hidden="true"></div>
-
-  <div class="boot" id="boot">
-    <div class="panel">
-      <div class="log">
-        <p style="--d:.12s;--n:27">[sys] link ............. ok</p>
-        <p class="hit" style="--d:.31s;--n:30">[!!!] clipboard lock ... found</p>
-        <p class="go" style="--d:.50s;--n:32">[&gt;&gt;&gt;] payload ......... injected</p>
-      </div>
-      <div class="bar"><i></i></div>
-      <div class="pct">decrypting clipboard layer</div>
-      <div class="granted">ACCESS GRANTED</div>
-      <div class="who">welcome back, operator</div>
-      <div class="skip">click to skip</div>
-    </div>
-  </div>
-
-  <header class="head">
-    <span class="prompt">&gt;_</span>
-    <h1 class="brand">copypaste_unlocker</h1>
-    <span class="ver">v3.0.0</span>
-  </header>
-
-  <div class="screen">
-    <video class="video" src="../assets/intro.mp4" autoplay muted loop playsinline controls></video>
-    <div class="grid" aria-hidden="true"></div>
-  </div>
-
-  <p class="typed"><span>$ unlock --target azubiheft.de</span></p>
-
-  <label class="switchrow" for="toggle">
-    <span class="state">
-      <span class="dot" id="dot"></span>
-      <span class="statetext" id="status">[ BOOTING ]</span>
+  <label class="row" for="toggle">
+    <span class="text">
+      <span class="title">CopyPaste Unlocker</span>
+      <span class="status" id="status">Loading…</span>
     </span>
     <input id="toggle" type="checkbox" class="switch" role="switch" disabled>
   </label>
-
-  <dl class="meta">
-    <div><dt>target</dt><dd>azubiheft.de</dd></div>
-    <div><dt>method</dt><dd>MAIN world @ document_start</dd></div>
-    <div><dt>blockers</dt><dd>copy &middot; paste &middot; cut &rarr; <span class="hl">silenced</span></dd></div>
-    <div><dt>telemetry</dt><dd class="dim">none. we're not that guy.</dd></div>
-    <div><dt>operator</dt><dd><input id="alias" class="alias" type="text" maxlength="18"
-      placeholder="set your alias" spellcheck="false" autocomplete="off"></dd></div>
-  </dl>
-
-  <footer class="foot">
-    <span class="hint" id="hint">&nbsp;</span>
-    <span class="links">
-      <a href="welcome.html" target="_blank" rel="noopener">&gt; full screen</a>
-      <button type="button" id="introToggle" class="linkbtn">&gt; intro: ON</button>
-    </span>
-  </footer>
-
-  <script src="boot.js"></script>
+  <p class="note">Ctrl+C, Ctrl+V and Ctrl+X on azubiheft.de. Changes apply instantly.</p>
   <script src="popup.js"></script>
 </body>
 </html>

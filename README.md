@@ -9,67 +9,36 @@ It is the permanent, automatic equivalent of the console one-liner
 ['copy','paste','cut'].forEach(t => window.addEventListener(t, e => e.stopImmediatePropagation(), true))
 ```
 
-— no DevTools, no "allow pasting" prompt, no manual step: the code is injected by the browser
-on every page load, including in iframes and for fields created later at runtime.
+— no DevTools, no "allow pasting" prompt, no manual step. The browser injects it on every page
+load, in iframes too, and it covers text fields created later at runtime.
 
-## File structure
+## Files
 
 ```
 CopyPaste-Unlocker/
-├── manifest.json         # MV3 manifest: three content scripts, "storage" permission only
+├── manifest.json      # MV3: two content scripts, "storage" permission only
 ├── src/
-│   ├── unlock.js         # MAIN world, document_start — neutralises the site's blockers
-│   ├── bridge.js         # ISOLATED world — reads chrome.storage, forwards ON/OFF to unlock.js
-│   ├── intro.js          # ISOLATED world, top frame — the breach overlay on page load
-│   ├── background.js     # service worker — opens the welcome page once, on install
-│   ├── boot.css          # the same sequence on the extension's own pages
-│   ├── boot.js
-│   ├── welcome.html      # first-run page: video, boot log, three steps
-│   ├── welcome.css
-│   ├── popup.html        # toolbar popup: video, state readout, switches
+│   ├── unlock.js      # MAIN world, document_start — silences the site's blockers
+│   ├── bridge.js      # ISOLATED world — reads the ON/OFF flag, forwards it to unlock.js
+│   ├── popup.html     # the toolbar popup: one switch
 │   ├── popup.css
 │   └── popup.js
-├── assets/
-│   └── intro.mp4         # intro video (H.264/AAC, 854x480, 12 s)
-├── icons/                # icon16/32/48/128.png — neon ">_" prompt
-├── QUICKSTART.md         # non-technical setup guide
+├── icons/
 └── README.md
 ```
 
-## Install (Load unpacked)
+## Install
 
-1. Download / clone this folder to a permanent location on your disk.
-   Chrome loads an unpacked extension from its folder every start — if you move or delete the
-   folder, the extension breaks.
-2. Open `chrome://extensions` in Chrome (Chrome 111 or newer — required for `"world": "MAIN"`).
-3. Turn on **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** (top-left).
-5. Select the folder that contains `manifest.json` (the folder itself, not the file).
-6. The welcome page opens by itself. Reload any open `https://azubiheft.de` tab once.
+1. Put this folder somewhere permanent — Chrome loads it from that path on every start, so
+   moving or deleting it breaks the extension.
+2. Open `chrome://extensions` (Chrome 111+, required for `"world": "MAIN"`).
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** (top left).
+5. Select the folder that contains `manifest.json` — the folder itself, not the file.
+6. Reload any open azubiheft.de tab once. Done.
 
-## UI
-
-Dark terminal theme, one deliberate palette (no light variant): monospace type, neon-green on
-near-black, CRT scanlines, a typed command line and a boot-log status block.
-
-**Breach sequence.** On page load — and on opening the popup or the welcome page — the screen is
-taken over for ~3.5 s: glyph rain on a canvas, a terminal log that types itself line by line
-(handler counts and the link address are randomised per run), a progress bar, then `ACCESS
-GRANTED` with an RGB-split glitch and `welcome back, <alias>`.
-
-The alias is whatever the user types into `operator` in the popup, stored locally like the
-toggles. The on-page version lives in a closed shadow root with `pointer-events: none`, runs only
-in the top frame, and tears itself down completely — animation frame included — after the run, so
-it can neither be styled by the page nor get in the way of it. Clipboard shortcuts already work
-while it is on screen. It respects `prefers-reduced-motion` (rain off, timeline collapsed), can be
-skipped with a click on extension pages, and is switched off from the popup
-(`> intro: ON/OFF`, stored as the `intro` flag).
-
-**Popup.** Plays the bundled video, then the state readout (`[ ACTIVE ]` / `[ STANDBY ]`), the
-main switch and a spec table. **Welcome page.** Same video full size plus the boot log; opened
-once on install by the service worker, reachable any time via `> full screen`.
-
-All animation is CSS-only.
+To switch it off, click the toolbar icon and flip the switch. It applies immediately in open
+tabs, no reload needed.
 
 ## Why the MAIN world is necessary
 
@@ -96,7 +65,7 @@ the real copy/paste/cut goes through as usual.
 isolated-world script `bridge.js` and handed over via DOM events. `unlock.js` starts enabled and
 only ever switches off if told to, so a page load is never left unprotected while storage is read.
 
-## What it neutralises
+## What it silences
 
 | Event | Why |
 | --- | --- |
@@ -106,17 +75,12 @@ only ever switches off if told to, so a page load is never left unprotected whil
 
 All other events, keys and site behaviour are left untouched.
 
-## Permissions
+## Permissions and privacy
 
-`"storage"` — two on/off flags and the alias string, nothing else. No `host_permissions`, no `tabs`, no
-`activeTab`: declarative content scripts limited to `https://azubiheft.de/*` and
-`https://www.azubiheft.de/*` need nothing more, and `chrome.tabs.create()` with an extension URL
-needs no permission either. Nothing is exposed through `web_accessible_resources`:
-the breach overlay is drawn entirely in code.
+`"storage"` — one on/off flag, nothing else. No `host_permissions`, no `tabs`, no `activeTab`,
+no background service worker, no web-accessible resources: declarative content scripts limited to
+`https://azubiheft.de/*` and `https://www.azubiheft.de/*` need nothing more.
 
-## Privacy
-
-The extension collects, stores and transmits **no** user data. It makes no network requests, reads
-no page content and never touches clipboard contents — it only stops the site's event handlers
-from running. The only things written anywhere are the two boolean toggles in local extension
-storage.
+No data is collected, stored or transmitted. The extension makes no network requests, reads no
+page content and never touches clipboard contents — it only stops the site's event handlers from
+running.
