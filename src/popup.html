@@ -6,29 +6,41 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <main class="card">
-    <header class="head">
-      <img class="logo" src="../icons/icon48.png" alt="" width="32" height="32">
-      <div>
-        <h1>CopyPaste Unlocker</h1>
-        <p class="host">azubiheft.de</p>
-      </div>
-    </header>
+  <div class="scan" aria-hidden="true"></div>
 
-    <label class="row" for="toggle">
-      <span class="label">
-        <span class="title">Kopyalama kilidi</span>
-        <span id="status" class="status">Yükleniyor…</span>
-      </span>
-      <input id="toggle" type="checkbox" class="switch" role="switch" disabled>
-    </label>
+  <header class="head">
+    <span class="prompt">&gt;_</span>
+    <h1 class="brand" data-text="copypaste_unlocker">copypaste_unlocker</h1>
+    <span class="ver">v1.2.0</span>
+  </header>
 
-    <p class="hint">azubiheft.de üzerinde Ctrl+C, Ctrl+V ve Ctrl+X çalışır. Değişiklik anında geçerli olur — sayfayı yenilemeye gerek yok.</p>
-    <p class="foot">
-      <a href="welcome.html" target="_blank" rel="noopener">Tanıtım videosunu izle</a>
-      <span class="sep">·</span> Hiçbir veri toplanmaz.
-    </p>
-  </main>
+  <div class="screen">
+    <video class="video" src="../assets/intro.mp4" autoplay muted loop playsinline controls></video>
+    <div class="grid" aria-hidden="true"></div>
+  </div>
+
+  <p class="typed"><span>$ unlock --target azubiheft.de</span></p>
+
+  <label class="switchrow" for="toggle">
+    <span class="state">
+      <span class="dot" id="dot"></span>
+      <span class="statetext" id="status">[ BAĞLANIYOR ]</span>
+    </span>
+    <input id="toggle" type="checkbox" class="switch" role="switch" disabled>
+  </label>
+
+  <dl class="meta">
+    <div><dt>hedef</dt><dd>azubiheft.de</dd></div>
+    <div><dt>yöntem</dt><dd>MAIN world · document_start</dd></div>
+    <div><dt>kısayol</dt><dd>Ctrl/Cmd + C · V · X</dd></div>
+    <div><dt>telemetri</dt><dd class="off">yok</dd></div>
+  </dl>
+
+  <footer class="foot">
+    <a href="welcome.html" target="_blank" rel="noopener">&gt; tam ekran izle</a>
+    <span class="hint" id="hint">anahtarı kapat → site kuralları geri gelir</span>
+  </footer>
+
   <script src="popup.js"></script>
 </body>
 </html>

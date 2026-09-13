@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CopyPaste Unlocker",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "azubiheft.de üzerinde engellenen Ctrl+C, Ctrl+V ve Ctrl+X kısayollarını geri getirir.",
   "minimum_chrome_version": "111",
   "permissions": [

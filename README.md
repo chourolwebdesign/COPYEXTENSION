@@ -23,7 +23,7 @@ CopyPaste-Unlocker/
 │   ├── background.js     # service worker — opens the welcome page once, on install
 │   ├── welcome.html      # first-run page with the intro video
 │   ├── welcome.css
-│   ├── popup.html        # toolbar popup
+│   ├── popup.html        # toolbar popup — plays the intro video, ON/OFF toggle
 │   ├── popup.css
 │   └── popup.js          # ON/OFF toggle (default ON)
 ├── assets/
@@ -53,14 +53,20 @@ CopyPaste-Unlocker/
 To switch it off temporarily, click the toolbar icon and flip the toggle. The change takes
 effect immediately in open tabs; no reload required.
 
-## First run
+## UI
 
-On install, the service worker opens `src/welcome.html` once. It plays the bundled intro video
-(muted autoplay, with controls) and explains the three things a user needs to know. It can be
-reopened any time from the "Tanıtım videosunu izle" link in the popup. The service worker does
-nothing else and stays unloaded after that.
+Dark terminal theme (single deliberate palette, no light variant): monospace type, neon-green
+accents, CRT scanlines, a typed command line and a boot-log status block. Turkish copy.
 
-The UI (popup and welcome page) is in Turkish.
+The **popup** plays the bundled intro video at the top (muted autoplay, looped, with controls), so
+it shows every time the toolbar icon is clicked, followed by the state line (`[ AKTİF ]` /
+`[ BEKLEMEDE ]`), the toggle and a short spec table.
+
+On install, the service worker additionally opens `src/welcome.html` once — the same video
+full-size plus a boot log and three plain-language steps. It can be reopened any time from the
+"tam ekran izle" link in the popup. The service worker does nothing else and stays unloaded.
+
+All animation is CSS-only and respects `prefers-reduced-motion`.
 
 ## Why the MAIN world is necessary
 

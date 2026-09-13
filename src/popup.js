@@ -5,12 +5,17 @@
   const DEFAULTS = { enabled: true };
   const toggle = document.getElementById('toggle');
   const status = document.getElementById('status');
+  const hint = document.getElementById('hint');
 
   const render = (enabled) => {
     toggle.checked = enabled;
     toggle.disabled = false;
-    status.textContent = enabled ? 'Açık — kısayollar serbest' : 'Kapalı — site kuralları geçerli';
-    status.dataset.state = enabled ? 'on' : 'off';
+    status.textContent = enabled ? '[ AKTİF ]' : '[ BEKLEMEDE ]';
+    hint.textContent = enabled
+      ? 'kopyala · yapıştır · kes → serbest'
+      : 'site kuralları geçerli — anahtarı aç';
+    document.body.classList.toggle('on', enabled);
+    document.body.classList.toggle('off', !enabled);
   };
 
   chrome.storage.local.get(DEFAULTS, (items) => {

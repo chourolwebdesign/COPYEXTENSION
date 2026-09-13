@@ -11,7 +11,7 @@ Bu eklenti **azubiheft.de** sitesinde çalışmayan **Ctrl+C (kopyala)**, **Ctrl
 3. Sağ üstteki **Geliştirici modu** düğmesini aç.
 4. Sol üstte çıkan **Paketlenmemiş öğe yükle** düğmesine tıkla.
 5. 1. adımdaki klasörü seç (klasörün kendisini seç, içindeki dosyayı değil) ve **Klasör Seç** de.
-6. Kurulum biter bitmez **tanıtım videosu olan karşılama sayfası kendiliğinden açılır**.
+6. Kurulum biter bitmez **tanıtım videolu karşılama sayfası kendiliğinden açılır**.
 7. azubiheft.de zaten açıksa o sekmeyi bir kez yenile (F5). Hepsi bu.
 
 ## Kullanım
@@ -22,7 +22,8 @@ kopyala–yapıştır normal sitelerdeki gibi çalışır. Sonradan açılan met
 **Kapatmak istersen:** Chrome'un sağ üstündeki eklenti simgesine tıkla ve anahtarı kapat.
 Anında etki eder, sayfayı yenilemene gerek yok. Tekrar açmak için aynı anahtarı geri aç.
 
-**Videoyu tekrar izlemek istersen:** aynı pencerede **"Tanıtım videosunu izle"** yazısına tıkla.
+**Video nerede?** Chrome'un sağ üstündeki eklenti simgesine her tıkladığında açılan pencerenin
+üstünde oynar. Büyük ekranda izlemek için aynı pencerede **"> tam ekran izle"** yazısına tıkla.
 
 ## Sık sorulanlar
 
