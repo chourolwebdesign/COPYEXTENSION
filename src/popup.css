@@ -202,23 +202,35 @@ body.off .statetext { color: var(--amber); }
 
 .meta dt { width: 74px; color: var(--dim); flex: none; }
 .meta dd { margin: 0; color: var(--text); }
-.meta dd.off { color: var(--neon-dim); }
+.meta dd.dim { color: var(--dim); font-style: italic; }
+.meta .hl { color: var(--neon); }
 
 .foot {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 7px;
   margin-top: 12px;
   font-size: 10.5px;
   color: var(--dim);
 }
 
-.foot a {
-  color: var(--neon-dim);
-  text-decoration: none;
+.links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.foot a:hover { color: var(--neon); text-shadow: 0 0 8px rgba(0, 255, 156, .5); }
+.foot a, .linkbtn {
+  color: var(--neon-dim);
+  text-decoration: none;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.foot a:hover, .linkbtn:hover { color: var(--neon); text-shadow: 0 0 8px rgba(0, 255, 156, .5); }
 
 @media (prefers-reduced-motion: reduce) {
   .typed span { animation: none; width: 31ch; border-right-color: transparent; }

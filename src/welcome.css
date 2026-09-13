@@ -62,6 +62,8 @@ h1:hover {
   animation: glitch .4s steps(2, end) infinite;
 }
 
+.log p:last-child { margin-top: 6px; }
+
 @keyframes glitch {
   0%   { text-shadow: 1px 0 rgba(255,0,90,.8), -1px 0 rgba(0,255,156,.8); }
   50%  { text-shadow: -1px 0 rgba(255,0,90,.8), 1px 0 rgba(0,255,156,.8); }

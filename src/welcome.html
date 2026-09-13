@@ -1,47 +1,62 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>CopyPaste Unlocker</title>
+  <link rel="stylesheet" href="boot.css">
   <link rel="stylesheet" href="welcome.css">
 </head>
 <body>
   <div class="scan" aria-hidden="true"></div>
 
+  <div class="boot" id="boot">
+    <div>
+      <img class="eye" src="../assets/mask.svg" alt="">
+      <div class="stack">
+        <div class="line l1">I'M WATCHING YOU</div>
+        <div class="line l2">...just kidding</div>
+      </div>
+      <div class="skip">click to skip</div>
+    </div>
+  </div>
+
   <main class="wrap">
     <header class="head">
       <img class="logo" src="../icons/icon128.png" alt="" width="46" height="46">
       <div>
-        <h1 data-text="copypaste_unlocker">copypaste_unlocker</h1>
-        <p class="sub">azubiheft.de · kopyalama kilidi kaldırıldı</p>
+        <h1>copypaste_unlocker</h1>
+        <p class="sub">azubiheft.de said no. we said yes.</p>
       </div>
-      <span class="badge">AKTİF</span>
+      <span class="badge">ACTIVE</span>
     </header>
 
     <section class="screen">
       <video class="video" src="../assets/intro.mp4" controls autoplay muted playsinline loop></video>
       <div class="grid" aria-hidden="true"></div>
     </section>
-    <p class="note">ses kapalı başlar — açmak için videodaki hoparlör simgesine tıkla</p>
+    <p class="note">starts muted — hit the speaker icon if you want the sound</p>
 
-    <section class="log" aria-label="durum">
-      <p style="--i:0"><span class="ok">[ok]</span> hedef ............. azubiheft.de</p>
-      <p style="--i:1"><span class="ok">[ok]</span> enjeksiyon ........ MAIN world @ document_start</p>
-      <p style="--i:2"><span class="ok">[ok]</span> engelleyiciler .... copy · paste · cut · selectstart</p>
-      <p style="--i:3"><span class="ok">[ok]</span> kısayollar ........ Ctrl/Cmd + C · V · X</p>
-      <p style="--i:4"><span class="ok">[ok]</span> dinamik alanlar ... kapsam içinde</p>
-      <p style="--i:5"><span class="no">[--]</span> telemetri ......... devre dışı</p>
-      <p style="--i:6" class="cursor">$ hazır</p>
+    <section class="log" aria-label="status">
+      <p style="--i:0"><span class="ok">[ok]</span> target ............ azubiheft.de</p>
+      <p style="--i:1"><span class="ok">[ok]</span> injection ......... MAIN world @ document_start</p>
+      <p style="--i:2"><span class="ok">[ok]</span> blockers .......... copy · paste · cut · selectstart → silenced</p>
+      <p style="--i:3"><span class="ok">[ok]</span> shortcuts ......... Ctrl/Cmd + C · V · X</p>
+      <p style="--i:4"><span class="ok">[ok]</span> dynamic fields .... covered, even the ones born later</p>
+      <p style="--i:5"><span class="no">[--]</span> telemetry ......... disabled. we're not the bad guys.</p>
+      <p style="--i:6"><span class="no">[--]</span> your homework ..... still your problem</p>
+      <p style="--i:7" class="cursor">$ ready</p>
     </section>
 
     <ol class="steps">
-      <li><b>Hiçbir şey yapmana gerek yok.</b> azubiheft.de her açıldığında kendi kendine devreye girer.</li>
-      <li><b>Açık sekmeleri bir kez yenile</b> (F5 / Cmd+R) — sonrası normal.</li>
-      <li><b>Kapatmak için</b> tarayıcının sağ üstündeki simgeye tıkla, anahtarı kapat. Anında etki eder.</li>
+      <li><b>Do nothing.</b> It arms itself every time azubiheft.de loads.</li>
+      <li><b>Reload open tabs once</b> (F5 / Cmd+R). That's the whole setup.</li>
+      <li><b>Need it off?</b> Click the toolbar icon, flip the switch. Applies instantly, no reload.</li>
     </ol>
 
-    <p class="cta"><a class="button" href="https://azubiheft.de" target="_blank" rel="noopener">&gt; azubiheft.de'yi aç</a></p>
-    <p class="foot">veri toplanmaz · ağa hiçbir şey gönderilmez · pano içeriği okunmaz</p>
+    <p class="cta"><a class="button" href="https://azubiheft.de" target="_blank" rel="noopener">&gt; open azubiheft.de</a></p>
+    <p class="foot">no tracking · no network calls · your clipboard is never read · the mask can be turned off in the popup</p>
   </main>
+
+  <script src="boot.js"></script>
 </body>
 </html>

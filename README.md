@@ -16,24 +16,24 @@ on every page load, including in iframes and for fields created later at runtime
 
 ```
 CopyPaste-Unlocker/
-├── manifest.json         # MV3 manifest: two content scripts, "storage" permission only
+├── manifest.json         # MV3 manifest: three content scripts, "storage" permission only
 ├── src/
 │   ├── unlock.js         # MAIN world, document_start — neutralises the site's blockers
 │   ├── bridge.js         # ISOLATED world — reads chrome.storage, forwards ON/OFF to unlock.js
+│   ├── intro.js          # ISOLATED world, top frame — the mask overlay on page load
 │   ├── background.js     # service worker — opens the welcome page once, on install
-│   ├── welcome.html      # first-run page with the intro video
+│   ├── boot.css          # shared intro sequence for the extension's own pages
+│   ├── boot.js
+│   ├── welcome.html      # first-run page: video, boot log, three steps
 │   ├── welcome.css
-│   ├── popup.html        # toolbar popup — plays the intro video, ON/OFF toggle
+│   ├── popup.html        # toolbar popup: video, state readout, switches
 │   ├── popup.css
-│   └── popup.js          # ON/OFF toggle (default ON)
+│   └── popup.js
 ├── assets/
-│   └── intro.mp4         # intro video shown on the welcome page (H.264/AAC, 854x480, 12 s)
-├── icons/
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
-├── KURULUM.md            # Turkish quick-start guide
+│   ├── intro.mp4         # intro video (H.264/AAC, 854x480, 12 s)
+│   └── mask.svg          # original stencil mask used by the intro sequence
+├── icons/                # icon16/32/48/128.png — neon ">_" prompt
+├── QUICKSTART.md         # non-technical setup guide
 └── README.md
 ```
 
@@ -46,27 +46,25 @@ CopyPaste-Unlocker/
 3. Turn on **Developer mode** (toggle in the top-right corner).
 4. Click **Load unpacked** (top-left).
 5. Select the folder that contains `manifest.json` (the folder itself, not the file).
-6. "CopyPaste Unlocker" appears in the list. Pin it via the puzzle-piece icon in the toolbar if
-   you want the popup one click away.
-7. Open or reload a tab on `https://azubiheft.de` — Ctrl+C / Ctrl+V / Ctrl+X work.
-
-To switch it off temporarily, click the toolbar icon and flip the toggle. The change takes
-effect immediately in open tabs; no reload required.
+6. The welcome page opens by itself. Reload any open `https://azubiheft.de` tab once.
 
 ## UI
 
-Dark terminal theme (single deliberate palette, no light variant): monospace type, neon-green
-accents, CRT scanlines, a typed command line and a boot-log status block. Turkish copy.
+Dark terminal theme, one deliberate palette (no light variant): monospace type, neon-green on
+near-black, CRT scanlines, a typed command line and a boot-log status block.
 
-The **popup** plays the bundled intro video at the top (muted autoplay, looped, with controls), so
-it shows every time the toolbar icon is clicked, followed by the state line (`[ AKTİF ]` /
-`[ BEKLEMEDE ]`), the toggle and a short spec table.
+**Intro sequence.** On page load — and on opening the popup or the welcome page — a stencil mask
+appears with `I'M WATCHING YOU`, which flips to `...just kidding` and fades out. The on-page
+version lives in a closed shadow root with `pointer-events: none`, only in the top frame, and
+removes itself after ~4 s, so it can neither be styled by the page nor get in the way of it. It
+respects `prefers-reduced-motion`, can be skipped with a click on extension pages, and is switched
+off from the popup (`> intro: ON/OFF`, stored as the `intro` flag).
 
-On install, the service worker additionally opens `src/welcome.html` once — the same video
-full-size plus a boot log and three plain-language steps. It can be reopened any time from the
-"tam ekran izle" link in the popup. The service worker does nothing else and stays unloaded.
+**Popup.** Plays the bundled video, then the state readout (`[ ACTIVE ]` / `[ STANDBY ]`), the
+main switch and a spec table. **Welcome page.** Same video full size plus the boot log; opened
+once on install by the service worker, reachable any time via `> full screen`.
 
-All animation is CSS-only and respects `prefers-reduced-motion`.
+All animation is CSS-only.
 
 ## Why the MAIN world is necessary
 
@@ -105,13 +103,15 @@ All other events, keys and site behaviour are left untouched.
 
 ## Permissions
 
-`"storage"` — the single ON/OFF flag, nothing else. No `host_permissions`, no `tabs`, no
+`"storage"` — the two on/off flags, nothing else. No `host_permissions`, no `tabs`, no
 `activeTab`: declarative content scripts limited to `https://azubiheft.de/*` and
 `https://www.azubiheft.de/*` need nothing more, and `chrome.tabs.create()` with an extension URL
-needs no permission either.
+needs no permission either. `web_accessible_resources` exposes exactly one file (`assets/mask.svg`)
+and only to those two origins.
 
 ## Privacy
 
 The extension collects, stores and transmits **no** user data. It makes no network requests, reads
 no page content and never touches clipboard contents — it only stops the site's event handlers
-from running. The only thing written anywhere is the boolean toggle in local extension storage.
+from running. The only things written anywhere are the two boolean toggles in local extension
+storage.

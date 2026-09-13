@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CopyPaste Unlocker",
-  "version": "1.2.0",
-  "description": "azubiheft.de üzerinde engellenen Ctrl+C, Ctrl+V ve Ctrl+X kısayollarını geri getirir.",
+  "version": "2.0.0",
+  "description": "Restores Ctrl+C, Ctrl+V and Ctrl+X on azubiheft.de by silencing the page scripts that block clipboard events.",
   "minimum_chrome_version": "111",
   "permissions": [
     "storage"
@@ -52,6 +52,29 @@
       "run_at": "document_start",
       "all_frames": true,
       "match_about_blank": true
+    },
+    {
+      "matches": [
+        "https://azubiheft.de/*",
+        "https://www.azubiheft.de/*"
+      ],
+      "js": [
+        "src/intro.js"
+      ],
+      "world": "ISOLATED",
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/mask.svg"
+      ],
+      "matches": [
+        "https://azubiheft.de/*",
+        "https://www.azubiheft.de/*"
+      ]
     }
   ]
 }

@@ -1,0 +1,59 @@
+/* Shared intro sequence for the extension's own pages (popup + welcome). */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(3, 7, 5, .97);
+  text-align: center;
+  cursor: pointer;
+  animation: boot-out .45s ease 3.15s forwards;
+}
+
+.boot .eye {
+  display: block;
+  width: min(150px, 52%);
+  margin: 0 auto 16px;
+  animation: boot-in .4s cubic-bezier(.2, .9, .3, 1.4) both;
+}
+
+.boot .stack { display: grid; }
+.boot .stack > * { grid-area: 1 / 1; }
+
+.boot .line {
+  letter-spacing: .14em;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.boot .l1 {
+  color: #ff3b3b;
+  text-shadow: 0 0 14px rgba(255, 59, 59, .65);
+  animation: boot-l1 2s ease .35s both, boot-flick .17s steps(2, end) 7 .35s;
+}
+
+.boot .l2 {
+  color: var(--neon);
+  text-shadow: 0 0 14px rgba(0, 255, 156, .6);
+  animation: boot-l2 .5s ease 2.35s both;
+}
+
+.boot .skip {
+  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #33473d;
+}
+
+@keyframes boot-in    { from { opacity: 0; transform: translateY(8px) scale(.96); } }
+@keyframes boot-out   { to { opacity: 0; visibility: hidden; } }
+@keyframes boot-l1    { 0% { opacity: 0 } 8%, 86% { opacity: 1 } 100% { opacity: 0 } }
+@keyframes boot-l2    { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes boot-flick { 50% { opacity: .35; transform: translateX(-1px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .boot, .boot .eye, .boot .l1, .boot .l2 { animation-duration: .01ms; animation-delay: 0s; }
+  .boot .l1 { opacity: 0; }
+}
