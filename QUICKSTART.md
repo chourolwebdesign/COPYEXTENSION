@@ -17,8 +17,11 @@ no "allow pasting" prompt. Install it and forget it.
 
 Nothing to do. It arms itself on every azubiheft.de page, dynamically created text fields included.
 
-- **The mask:** when a page loads you get a short "I'M WATCHING YOU → ...just kidding" intro.
-  Turn it off any time: toolbar icon → `> intro: ON/OFF`.
+- **The breach screen:** every azubiheft.de page load starts with glyph rain, a terminal log and
+  `ACCESS GRANTED`. It lasts ~3.5 seconds, clicks pass straight through it, and it disappears on
+  its own. Turn it off any time: toolbar icon → `> intro: ON/OFF`.
+- **Your alias:** toolbar icon → `operator` → type a name. The breach screen then signs off with
+  `WELCOME BACK, <YOUR NAME>`.
 - **Turn the unlocker off:** toolbar icon → flip the switch. Instant, no reload.
 - **The video:** plays in the popup every time you open it, and full size via `> full screen`.
 
@@ -30,5 +33,5 @@ Nothing to do. It arms itself on every azubiheft.de page, dynamically created te
 Web Store. Dismiss it.
 
 **Is anything collected?** No. No network calls, no page content read, no clipboard access —
-it only silences the site's blocking handlers. The only thing stored is two on/off flags,
-locally.
+it only silences the site's blocking handlers. The only things stored are the two on/off flags
+and the alias you type, locally on your machine.

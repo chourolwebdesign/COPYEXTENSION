@@ -1,4 +1,4 @@
-/** Shared intro sequence controller for the popup and the welcome page. */
+/** Breach sequence controller for the popup and the welcome page. */
 (() => {
   'use strict';
 
@@ -7,9 +7,11 @@
 
   const kill = () => boot.remove();
 
-  chrome.storage.local.get({ intro: true }, (s) => {
+  chrome.storage.local.get({ intro: true, alias: '' }, (s) => {
     if (chrome.runtime.lastError || s.intro === false) return kill();
-    boot.addEventListener('click', kill);      // click anywhere to skip
-    setTimeout(kill, 3600);                    // matches the CSS timeline
+    const who = boot.querySelector('.who');
+    if (who) who.textContent = `welcome back, ${String(s.alias || 'operator').slice(0, 18)}`;
+    boot.addEventListener('click', kill);   // click anywhere to skip
+    setTimeout(kill, 3050);                 // matches the CSS timeline
   });
 })();

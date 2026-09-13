@@ -1,59 +1,110 @@
-/* Shared intro sequence for the extension's own pages (popup + welcome). */
+/* Breach sequence for the extension's own pages (popup + welcome). */
 .boot {
   position: fixed;
   inset: 0;
   z-index: 50;
   display: grid;
   place-items: center;
-  padding: 18px;
-  background: rgba(3, 7, 5, .97);
-  text-align: center;
+  padding: 16px;
+  background: radial-gradient(120% 90% at 50% 50%, rgba(0, 12, 7, .94), rgba(0, 0, 0, .99));
   cursor: pointer;
-  animation: boot-out .45s ease 3.15s forwards;
+  animation: boot-flash .12s steps(2, end) 2, boot-fade .5s ease 2.55s forwards;
 }
 
-.boot .eye {
+.boot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(0, 255, 156, .06) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+}
+
+.boot .panel {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  border: 1px solid rgba(0, 255, 156, .35);
+  border-radius: 9px;
+  background: rgba(2, 8, 5, .85);
+  box-shadow: 0 0 60px rgba(0, 255, 156, .15);
+}
+
+.boot .log p {
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 11.5px;
+  color: #57e0a4;
+  animation: boot-type .3s steps(28, end) var(--d) both;
+}
+
+.boot .log .hit { color: #ff4747; }
+.boot .log .go { color: var(--neon); }
+
+.boot .bar {
+  margin: 12px 0 5px;
+  height: 5px;
+  border: 1px solid rgba(0, 255, 156, .35);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.boot .bar i {
   display: block;
-  width: min(150px, 52%);
-  margin: 0 auto 16px;
-  animation: boot-in .4s cubic-bezier(.2, .9, .3, 1.4) both;
+  height: 100%;
+  width: 0;
+  background: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
+  animation: boot-fill .7s ease .85s forwards;
 }
 
-.boot .stack { display: grid; }
-.boot .stack > * { grid-area: 1 / 1; }
+.boot .pct { font-size: 10px; letter-spacing: .1em; color: #2f6f55; }
 
-.boot .line {
-  letter-spacing: .14em;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.boot .l1 {
-  color: #ff3b3b;
-  text-shadow: 0 0 14px rgba(255, 59, 59, .65);
-  animation: boot-l1 2s ease .35s both, boot-flick .17s steps(2, end) 7 .35s;
-}
-
-.boot .l2 {
+.boot .granted {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .2em;
   color: var(--neon);
-  text-shadow: 0 0 14px rgba(0, 255, 156, .6);
-  animation: boot-l2 .5s ease 2.35s both;
+  opacity: 0;
+  animation: boot-slam .35s cubic-bezier(.2, .9, .3, 1.5) 1.6s forwards,
+             boot-rgb .2s steps(2, end) 1.6s 5;
+}
+
+.boot .who {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #2f6f55;
+  opacity: 0;
+  animation: boot-rise .35s ease 1.95s forwards;
 }
 
 .boot .skip {
-  margin-top: 14px;
-  font-size: 10px;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 9.5px;
   letter-spacing: .1em;
-  color: #33473d;
+  color: #2a4438;
 }
 
-@keyframes boot-in    { from { opacity: 0; transform: translateY(8px) scale(.96); } }
-@keyframes boot-out   { to { opacity: 0; visibility: hidden; } }
-@keyframes boot-l1    { 0% { opacity: 0 } 8%, 86% { opacity: 1 } 100% { opacity: 0 } }
-@keyframes boot-l2    { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-@keyframes boot-flick { 50% { opacity: .35; transform: translateX(-1px); } }
+@keyframes boot-type  { to { width: calc(var(--n) * 1ch) } }
+@keyframes boot-fill  { to { width: 100% } }
+@keyframes boot-slam  { from { opacity: 0; transform: scale(1.3) } to { opacity: 1; transform: none } }
+@keyframes boot-rise  { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
+@keyframes boot-fade  { to { opacity: 0; visibility: hidden } }
+@keyframes boot-flash { 50% { background-color: rgba(0, 255, 156, .10) } }
+@keyframes boot-rgb   { 50% { text-shadow: 2px 0 rgba(255,0,80,.9), -2px 0 rgba(0,200,255,.9); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .boot, .boot .eye, .boot .l1, .boot .l2 { animation-duration: .01ms; animation-delay: 0s; }
-  .boot .l1 { opacity: 0; }
+  .boot, .boot .log p, .boot .bar i, .boot .granted, .boot .who {
+    animation-duration: .01ms;
+    animation-delay: 0s;
+  }
+  .boot { animation: boot-fade .3s ease 2.3s forwards; }
+  .boot .log p { width: calc(var(--n) * 1ch); }
+  .boot .granted, .boot .who { opacity: 1; }
 }

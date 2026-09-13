@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CopyPaste Unlocker",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Restores Ctrl+C, Ctrl+V and Ctrl+X on azubiheft.de by silencing the page scripts that block clipboard events.",
   "minimum_chrome_version": "111",
   "permissions": [
@@ -64,17 +64,6 @@
       "world": "ISOLATED",
       "run_at": "document_idle",
       "all_frames": false
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "assets/mask.svg"
-      ],
-      "matches": [
-        "https://azubiheft.de/*",
-        "https://www.azubiheft.de/*"
-      ]
     }
   ]
 }

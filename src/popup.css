@@ -205,6 +205,20 @@ body.off .statetext { color: var(--amber); }
 .meta dd.dim { color: var(--dim); font-style: italic; }
 .meta .hl { color: var(--neon); }
 
+.alias {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dashed var(--line);
+  background: none;
+  color: var(--neon);
+  font: inherit;
+  letter-spacing: .06em;
+}
+
+.alias::placeholder { color: #35473f; letter-spacing: 0; }
+.alias:focus { outline: none; border-bottom-color: var(--neon-dim); }
+
 .foot {
   display: flex;
   flex-direction: column;

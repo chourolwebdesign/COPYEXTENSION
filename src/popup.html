@@ -10,12 +10,16 @@
   <div class="scan" aria-hidden="true"></div>
 
   <div class="boot" id="boot">
-    <div>
-      <img class="eye" src="../assets/mask.svg" alt="">
-      <div class="stack">
-        <div class="line l1">I'M WATCHING YOU</div>
-        <div class="line l2">...just kidding</div>
+    <div class="panel">
+      <div class="log">
+        <p style="--d:.12s;--n:27">[sys] link ............. ok</p>
+        <p class="hit" style="--d:.31s;--n:30">[!!!] clipboard lock ... found</p>
+        <p class="go" style="--d:.50s;--n:32">[&gt;&gt;&gt;] payload ......... injected</p>
       </div>
+      <div class="bar"><i></i></div>
+      <div class="pct">decrypting clipboard layer</div>
+      <div class="granted">ACCESS GRANTED</div>
+      <div class="who">welcome back, operator</div>
       <div class="skip">click to skip</div>
     </div>
   </div>
@@ -23,7 +27,7 @@
   <header class="head">
     <span class="prompt">&gt;_</span>
     <h1 class="brand">copypaste_unlocker</h1>
-    <span class="ver">v2.0.0</span>
+    <span class="ver">v3.0.0</span>
   </header>
 
   <div class="screen">
@@ -46,6 +50,8 @@
     <div><dt>method</dt><dd>MAIN world @ document_start</dd></div>
     <div><dt>blockers</dt><dd>copy &middot; paste &middot; cut &rarr; <span class="hl">silenced</span></dd></div>
     <div><dt>telemetry</dt><dd class="dim">none. we're not that guy.</dd></div>
+    <div><dt>operator</dt><dd><input id="alias" class="alias" type="text" maxlength="18"
+      placeholder="set your alias" spellcheck="false" autocomplete="off"></dd></div>
   </dl>
 
   <footer class="foot">

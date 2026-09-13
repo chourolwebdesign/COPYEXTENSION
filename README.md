@@ -20,9 +20,9 @@ CopyPaste-Unlocker/
 ├── src/
 │   ├── unlock.js         # MAIN world, document_start — neutralises the site's blockers
 │   ├── bridge.js         # ISOLATED world — reads chrome.storage, forwards ON/OFF to unlock.js
-│   ├── intro.js          # ISOLATED world, top frame — the mask overlay on page load
+│   ├── intro.js          # ISOLATED world, top frame — the breach overlay on page load
 │   ├── background.js     # service worker — opens the welcome page once, on install
-│   ├── boot.css          # shared intro sequence for the extension's own pages
+│   ├── boot.css          # the same sequence on the extension's own pages
 │   ├── boot.js
 │   ├── welcome.html      # first-run page: video, boot log, three steps
 │   ├── welcome.css
@@ -30,8 +30,7 @@ CopyPaste-Unlocker/
 │   ├── popup.css
 │   └── popup.js
 ├── assets/
-│   ├── intro.mp4         # intro video (H.264/AAC, 854x480, 12 s)
-│   └── mask.svg          # original stencil mask used by the intro sequence
+│   └── intro.mp4         # intro video (H.264/AAC, 854x480, 12 s)
 ├── icons/                # icon16/32/48/128.png — neon ">_" prompt
 ├── QUICKSTART.md         # non-technical setup guide
 └── README.md
@@ -53,12 +52,18 @@ CopyPaste-Unlocker/
 Dark terminal theme, one deliberate palette (no light variant): monospace type, neon-green on
 near-black, CRT scanlines, a typed command line and a boot-log status block.
 
-**Intro sequence.** On page load — and on opening the popup or the welcome page — a stencil mask
-appears with `I'M WATCHING YOU`, which flips to `...just kidding` and fades out. The on-page
-version lives in a closed shadow root with `pointer-events: none`, only in the top frame, and
-removes itself after ~4 s, so it can neither be styled by the page nor get in the way of it. It
-respects `prefers-reduced-motion`, can be skipped with a click on extension pages, and is switched
-off from the popup (`> intro: ON/OFF`, stored as the `intro` flag).
+**Breach sequence.** On page load — and on opening the popup or the welcome page — the screen is
+taken over for ~3.5 s: glyph rain on a canvas, a terminal log that types itself line by line
+(handler counts and the link address are randomised per run), a progress bar, then `ACCESS
+GRANTED` with an RGB-split glitch and `welcome back, <alias>`.
+
+The alias is whatever the user types into `operator` in the popup, stored locally like the
+toggles. The on-page version lives in a closed shadow root with `pointer-events: none`, runs only
+in the top frame, and tears itself down completely — animation frame included — after the run, so
+it can neither be styled by the page nor get in the way of it. Clipboard shortcuts already work
+while it is on screen. It respects `prefers-reduced-motion` (rain off, timeline collapsed), can be
+skipped with a click on extension pages, and is switched off from the popup
+(`> intro: ON/OFF`, stored as the `intro` flag).
 
 **Popup.** Plays the bundled video, then the state readout (`[ ACTIVE ]` / `[ STANDBY ]`), the
 main switch and a spec table. **Welcome page.** Same video full size plus the boot log; opened
@@ -103,11 +108,11 @@ All other events, keys and site behaviour are left untouched.
 
 ## Permissions
 
-`"storage"` — the two on/off flags, nothing else. No `host_permissions`, no `tabs`, no
+`"storage"` — two on/off flags and the alias string, nothing else. No `host_permissions`, no `tabs`, no
 `activeTab`: declarative content scripts limited to `https://azubiheft.de/*` and
 `https://www.azubiheft.de/*` need nothing more, and `chrome.tabs.create()` with an extension URL
-needs no permission either. `web_accessible_resources` exposes exactly one file (`assets/mask.svg`)
-and only to those two origins.
+needs no permission either. Nothing is exposed through `web_accessible_resources`:
+the breach overlay is drawn entirely in code.
 
 ## Privacy
 
