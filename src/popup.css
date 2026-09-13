@@ -109,6 +109,15 @@ h1 {
   color: var(--muted);
 }
 
+.foot a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.foot a:hover { text-decoration: underline; }
+
+.sep { opacity: .6; }
+
 .foot {
   margin-top: 10px;
   padding-top: 10px;

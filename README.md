@@ -20,14 +20,20 @@ CopyPaste-Unlocker/
 ├── src/
 │   ├── unlock.js         # MAIN world, document_start — neutralises the site's blockers
 │   ├── bridge.js         # ISOLATED world — reads chrome.storage, forwards ON/OFF to unlock.js
+│   ├── background.js     # service worker — opens the welcome page once, on install
+│   ├── welcome.html      # first-run page with the intro video
+│   ├── welcome.css
 │   ├── popup.html        # toolbar popup
 │   ├── popup.css
 │   └── popup.js          # ON/OFF toggle (default ON)
+├── assets/
+│   └── intro.mp4         # intro video shown on the welcome page (H.264/AAC, 854x480, 12 s)
 ├── icons/
 │   ├── icon16.png
 │   ├── icon32.png
 │   ├── icon48.png
 │   └── icon128.png
+├── KURULUM.md            # Turkish quick-start guide
 └── README.md
 ```
 
@@ -46,6 +52,15 @@ CopyPaste-Unlocker/
 
 To switch it off temporarily, click the toolbar icon and flip the toggle. The change takes
 effect immediately in open tabs; no reload required.
+
+## First run
+
+On install, the service worker opens `src/welcome.html` once. It plays the bundled intro video
+(muted autoplay, with controls) and explains the three things a user needs to know. It can be
+reopened any time from the "Tanıtım videosunu izle" link in the popup. The service worker does
+nothing else and stays unloaded after that.
+
+The UI (popup and welcome page) is in Turkish.
 
 ## Why the MAIN world is necessary
 
@@ -85,8 +100,9 @@ All other events, keys and site behaviour are left untouched.
 ## Permissions
 
 `"storage"` — the single ON/OFF flag, nothing else. No `host_permissions`, no `tabs`, no
-`activeTab`, no background service worker: declarative content scripts limited to
-`https://azubiheft.de/*` and `https://www.azubiheft.de/*` need nothing more.
+`activeTab`: declarative content scripts limited to `https://azubiheft.de/*` and
+`https://www.azubiheft.de/*` need nothing more, and `chrome.tabs.create()` with an extension URL
+needs no permission either.
 
 ## Privacy
 

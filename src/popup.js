@@ -9,7 +9,7 @@
   const render = (enabled) => {
     toggle.checked = enabled;
     toggle.disabled = false;
-    status.textContent = enabled ? 'On — shortcuts unlocked' : 'Off — site behaviour unchanged';
+    status.textContent = enabled ? 'Açık — kısayollar serbest' : 'Kapalı — site kuralları geçerli';
     status.dataset.state = enabled ? 'on' : 'off';
   };
 
