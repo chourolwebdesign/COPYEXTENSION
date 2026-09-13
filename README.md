@@ -16,16 +16,48 @@ load, in iframes too, and it covers text fields created later at runtime.
 
 ```
 CopyPaste-Unlocker/
-├── manifest.json      # MV3: two content scripts, "storage" permission only
+├── manifest.json               # MV3: two content scripts, storage + alarms
 ├── src/
-│   ├── unlock.js      # MAIN world, document_start — silences the site's blockers
-│   ├── bridge.js      # ISOLATED world — reads the ON/OFF flag, forwards it to unlock.js
-│   ├── popup.html     # the toolbar popup: one switch
+│   ├── unlock.js               # MAIN world, document_start — silences the site's blockers
+│   ├── bridge.js               # ISOLATED world — licence + switch decide, forwards to unlock.js
+│   ├── license.js              # licence client (activate / revalidate / deactivate)
+│   ├── config.js               # API_BASE — the one file you edit after deploying
+│   ├── background.js           # service worker: periodic re-check via chrome.alarms
+│   ├── popup.html              # activation screen / active screen
 │   ├── popup.css
 │   └── popup.js
+├── supabase/
+│   ├── migrations/0001_license_schema.sql
+│   ├── functions/license/index.ts   # public: activate, validate, deactivate
+│   ├── functions/admin/index.ts     # seller only: create, revoke, reactivate, status, list, release
+│   └── config.toml
 ├── icons/
+├── SETUP.md                    # backend setup, key generation, test matrix
 └── README.md
 ```
+
+## Licence system
+
+The extension does nothing until a licence key is activated against the backend
+(`SETUP.md` has the full setup, key generation and test matrix).
+
+- The popup asks for a key (`CP-XXXX-XXXX-XXXX-XXXX`) and calls the `license`
+  Edge Function, which checks the key server-side, enforces `max_devices` and
+  records the activation against a random device UUID.
+- On success the server grants a **lease** (7 days by default). `bridge.js` only
+  enables `unlock.js` while that lease is live and the switch is on, so a copied
+  extension folder without a key does nothing.
+- The service worker re-checks every 12 h through `chrome.alarms` — never per
+  clipboard event. A failed check caused by a missing connection keeps the
+  current lease, which is the offline grace period; a refusal from the server
+  (revoked, unknown, released) ends the licence immediately.
+- **Lizenz deaktivieren** releases the device server-side so the key can move to
+  another machine.
+- No secret ships inside the extension: it knows only the public function URL,
+  the customer's own key, a device UUID and a timestamp.
+
+This prevents casual sharing. It does not make the extension uncrackable — see
+the last section of `SETUP.md`.
 
 ## Install
 
@@ -77,10 +109,12 @@ All other events, keys and site behaviour are left untouched.
 
 ## Permissions and privacy
 
-`"storage"` — one on/off flag, nothing else. No `host_permissions`, no `tabs`, no `activeTab`,
-no background service worker, no web-accessible resources: declarative content scripts limited to
-`https://azubiheft.de/*` and `https://www.azubiheft.de/*` need nothing more.
+`"storage"` (the on/off flag, the licence lease and a random device UUID) and `"alarms"` (the
+periodic licence re-check). `host_permissions` covers exactly one host: your own licence API.
+No `tabs`, no `activeTab`, no web-accessible resources; the content scripts are limited to
+`https://azubiheft.de/*` and `https://www.azubiheft.de/*`.
 
-No data is collected, stored or transmitted. The extension makes no network requests, reads no
-page content and never touches clipboard contents — it only stops the site's event handlers from
-running.
+The content scripts make no network requests at all. Page content, form fields and Berichtsheft
+text are never read, stored or transmitted, and the clipboard itself is never touched — the
+extension only stops the site's event handlers from running. The only thing that leaves the
+browser is a licence check: the key, a random device UUID, and nothing else.

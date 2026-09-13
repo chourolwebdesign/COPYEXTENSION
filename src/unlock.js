@@ -31,9 +31,10 @@
   const CLIPBOARD_KEYS = new Set(['c', 'v', 'x']);
   const CLIPBOARD_CODES = new Set(['KeyC', 'KeyV', 'KeyX']);
 
-  // Default ON. bridge.js corrects this asynchronously if the user toggled the
-  // extension off, so a page load is never left unprotected while storage reads.
-  let enabled = true;
+  // Default OFF: nothing is unlocked until bridge.js confirms an activated
+  // licence and the popup switch. The listeners below are registered either way,
+  // because registering them later would put them behind the site's own.
+  let enabled = false;
 
   /** Stop the event before the page's own handlers see it. */
   const release = (event) => {
