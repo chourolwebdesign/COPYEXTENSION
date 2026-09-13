@@ -9,43 +9,36 @@ It is the permanent, automatic equivalent of the console one-liner
 ['copy','paste','cut'].forEach(t => window.addEventListener(t, e => e.stopImmediatePropagation(), true))
 ```
 
-— no DevTools, no "allow pasting" prompt, no manual step: the code is injected by the browser
-on every page load, including in iframes and for fields created later at runtime.
+— no DevTools, no "allow pasting" prompt, no manual step. The browser injects it on every page
+load, in iframes too, and it covers text fields created later at runtime.
 
-## File structure
+## Files
 
 ```
 CopyPaste-Unlocker/
-├── manifest.json         # MV3 manifest: two content scripts, "storage" permission only
+├── manifest.json      # MV3: two content scripts, "storage" permission only
 ├── src/
-│   ├── unlock.js         # MAIN world, document_start — neutralises the site's blockers
-│   ├── bridge.js         # ISOLATED world — reads chrome.storage, forwards ON/OFF to unlock.js
-│   ├── popup.html        # toolbar popup
+│   ├── unlock.js      # MAIN world, document_start — silences the site's blockers
+│   ├── bridge.js      # ISOLATED world — reads the ON/OFF flag, forwards it to unlock.js
+│   ├── popup.html     # the toolbar popup: one switch
 │   ├── popup.css
-│   └── popup.js          # ON/OFF toggle (default ON)
+│   └── popup.js
 ├── icons/
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
 └── README.md
 ```
 
-## Install (Load unpacked)
+## Install
 
-1. Download / clone this folder to a permanent location on your disk.
-   Chrome loads an unpacked extension from its folder every start — if you move or delete the
-   folder, the extension breaks.
-2. Open `chrome://extensions` in Chrome (Chrome 111 or newer — required for `"world": "MAIN"`).
-3. Turn on **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** (top-left).
-5. Select the folder that contains `manifest.json` (the folder itself, not the file).
-6. "CopyPaste Unlocker" appears in the list. Pin it via the puzzle-piece icon in the toolbar if
-   you want the popup one click away.
-7. Open or reload a tab on `https://azubiheft.de` — Ctrl+C / Ctrl+V / Ctrl+X work.
+1. Put this folder somewhere permanent — Chrome loads it from that path on every start, so
+   moving or deleting it breaks the extension.
+2. Open `chrome://extensions` (Chrome 111+, required for `"world": "MAIN"`).
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** (top left).
+5. Select the folder that contains `manifest.json` — the folder itself, not the file.
+6. Reload any open azubiheft.de tab once. Done.
 
-To switch it off temporarily, click the toolbar icon and flip the toggle. The change takes
-effect immediately in open tabs; no reload required.
+To switch it off, click the toolbar icon and flip the switch. It applies immediately in open
+tabs, no reload needed.
 
 ## Why the MAIN world is necessary
 
@@ -72,7 +65,7 @@ the real copy/paste/cut goes through as usual.
 isolated-world script `bridge.js` and handed over via DOM events. `unlock.js` starts enabled and
 only ever switches off if told to, so a page load is never left unprotected while storage is read.
 
-## What it neutralises
+## What it silences
 
 | Event | Why |
 | --- | --- |
@@ -82,14 +75,12 @@ only ever switches off if told to, so a page load is never left unprotected whil
 
 All other events, keys and site behaviour are left untouched.
 
-## Permissions
+## Permissions and privacy
 
-`"storage"` — the single ON/OFF flag, nothing else. No `host_permissions`, no `tabs`, no
-`activeTab`, no background service worker: declarative content scripts limited to
+`"storage"` — one on/off flag, nothing else. No `host_permissions`, no `tabs`, no `activeTab`,
+no background service worker, no web-accessible resources: declarative content scripts limited to
 `https://azubiheft.de/*` and `https://www.azubiheft.de/*` need nothing more.
 
-## Privacy
-
-The extension collects, stores and transmits **no** user data. It makes no network requests, reads
-no page content and never touches clipboard contents — it only stops the site's event handlers
-from running. The only thing written anywhere is the boolean toggle in local extension storage.
+No data is collected, stored or transmitted. The extension makes no network requests, reads no
+page content and never touches clipboard contents — it only stops the site's event handlers from
+running.

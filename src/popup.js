@@ -1,4 +1,4 @@
-/** CopyPaste Unlocker - popup UI. Reads and writes the single stored flag. */
+/** CopyPaste Unlocker - popup. One stored flag: enabled. */
 (() => {
   'use strict';
 
@@ -9,7 +9,7 @@
   const render = (enabled) => {
     toggle.checked = enabled;
     toggle.disabled = false;
-    status.textContent = enabled ? 'On — shortcuts unlocked' : 'Off — site behaviour unchanged';
+    status.textContent = enabled ? 'On' : 'Off';
     status.dataset.state = enabled ? 'on' : 'off';
   };
 
